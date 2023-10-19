@@ -1,0 +1,72 @@
+#gameboard {
+    display: grid;
+    gap: 10px 10px;
+    background-color: #3498db;
+    /* max-width: 50%; */
+}
+
+#table {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#gameboard td {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 10px;
+}
+
+#startButton {
+    padding: 15px 30px;
+    font-size: 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+#startButton:hover {
+    background-color: #2980b9;
+}
+
+#start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dropButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.drop-button {
+    padding: 10px 20px;
+    font-size: 12px;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.drop-button:hover {
+    background-color: #2980b9;
+}
+
+.drop-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+  

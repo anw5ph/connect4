@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Connect 4</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body onload="checkStatus();">
+    <h1 align="center">Connect 4</h1>
+
+    <div id="start">
+        <button id="startButton" onclick="startGame();">Start Game</button>
+    </div>
+
+    <br>
+    <div id="dropButtons">
+    </div>
+
+    <div id="table">
+        <table id="gameboard"></table>
+    </div>
+
+</body>
+<html>
+<script>
+    function freshBoard() {
+        let gameboard = document.getElementById('gameboard');
+        gameboard.innerHTML = '';
+
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                const cellImage = document.createElement('img');
+                cellImage.style.width = '50px';
+                cellImage.style.height = 'auto';
+                cell.appendChild(cellImage);
+                cell.style.justifyContent = 'center';
+                cell.style.alignItems = 'center';
+                cell.style.display = 'flex';
+                cell.id = j.toString() + ' ' + i.toString();
+                row.appendChild(cell);
+                
+            }
+            row.style.display = 'flex';
+            gameboard.appendChild(row);
+        }
+    }
+
+    function dropButtons() {
+        let dropButtons = document.getElementById('dropButtons');
+        dropButtons.innerHTML = '';
+
+        for (let i = 0; i < 7; i++) {
+            const button = document.createElement('button');
+            button.id = "dropButton" + i.toString();
+            button.classList.add('drop-button');
+            button.innerHTML = 'Drop';
+            button.onclick = function() { dropToken(i); };
+            dropButtons.appendChild(button);
+        }
+    }
+    async function startGame() {
+        try {
+            const response = await fetch('http://localhost:8080/api/startgame');
+            const data = await response.json();
+            console.log('API data:', data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+        freshBoard();
+        dropButtons();
+    }
+
+    async function dropToken(column) {
+        try {
+            const response = await fetch('http://localhost:8080/api/droptoken?column=' + column);
+            const data = await response.json();
+
+            let row = 5
+            
+            while (row >= 0) {
+                let cell = document.getElementById(column.toString() + ' ' + row.toString());
+                let cellImage = cell.firstChild;
+
+                if (cellImage.src === '') {
+                    if (data.turn == 1) {
+                        cellImage.src = 'img/player1.jpg';
+                    } 
+                    
+                    else {
+                        cellImage.src = 'img/player2.png';
+                    }
+                    break;
+                }
+                row -=1;
+
+                if (row == 0) {
+                    let dropButton = document.getElementById('dropButton' + column.toString());
+                    dropButton.disabled = true;
+                }
+
+            }
+            
+            console.log('API data:', data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    function checkStatus() {
+
+    }
+
+</script>
