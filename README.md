@@ -1,15 +1,17 @@
 # connect4
 
-In order to run the app locally, go to httpd.conf and under:
+In order to run the app locally, go to httpd.conf
+
+1. Find this:
 ```
 <IfModule alias_module>
 ```
-type the following: 
+Within the IfModule add the following: 
 ```
 Alias /connect4 "path/name/to/html/folder/for/connect4"
 ```
 
-And under the following: 
+2. Find this:
 ```
 <Directory />
     AllowOverride none
@@ -17,7 +19,7 @@ And under the following:
 </Directory>
 ```
 
-Add: 
+Type the following under it:
 ```
 <Directory "path/name/to/html/folder/for/connect4" >
     AllowOverride none
