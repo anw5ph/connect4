@@ -69,4 +69,15 @@
     background-color: #bdc3c7;
     cursor: not-allowed;
 }
+
+#gameOverMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid black;
+    z-index: 1000;
+  }
   
