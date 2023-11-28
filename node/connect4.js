@@ -21,7 +21,7 @@ server.listen(3000, "127.0.0.1", () => console.log('Server running at http://127
 let gameboard = JSON.parse(fs.readFileSync('gameboard.json', 'utf-8'));
 let turn;
 let totalTurns;
-let isActive = true;
+let isActive = false;
 let winner = null;
 
 function handleUserAction(urlString, queryString) {
@@ -49,10 +49,10 @@ function handleUserAction(urlString, queryString) {
             dropToken(col, turn);
             winner = checkWin(gameboard.board);
             if (winner) {
-                isActive = false;
+                // isActive = true;
                 return JSON.stringify({ "message": `Player ${winner} wins!`, "turn": turn, "totalTurns": totalTurns, "winner": winner });
             } else if (isBoardFull(gameboard.board)) {
-                isActive = false;
+                // isActive = true;
                 return JSON.stringify({ "message": "Draw!", "turn": turn, "totalTurns": totalTurns, "winner": winner });
             } else {
                 return JSON.stringify({ "message": `Player ${turn} played in column ${col}.`, "turn": turn, "totalTurns": totalTurns });

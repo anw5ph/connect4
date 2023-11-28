@@ -111,7 +111,7 @@
                 console.log('API data:', data);
                 if (data.winner || data.totalTurns === 42) {
                     const message = data.winner ? `Player ${data.winner} won the game!` : "It's a draw!";
-                    alert(message);
+                    // alert(message);
                     displayGameOver(message);
                 }
             } catch (error) {
@@ -119,20 +119,67 @@
             }
         }
 
+        // async function checkStatus() {
+        //     try {
+        //         const response = await fetch('http://localhost:8080/api/state');
+        //         const data = await response.json();
+
+        //         if (!data.active) {
+        //             const message = data.winner ? `Player ${data.winner} wins!` : "It's a draw!";
+        //             // alert(message);
+        //             disableDropButtons();
+        //         }
+        //     } catch (error) {
+        //         console.error('Error fetching game state:', error);
+        //     }
+        // }
         async function checkStatus() {
             try {
                 const response = await fetch('http://localhost:8080/api/state');
                 const data = await response.json();
 
-                if (!data.active) {
+                // console.log(data.active);
+                // console.log(data);
+
+                if (data.active) {
+                    // Game is active, populate the board with the current state
+                    const boardResponse = await fetch('http://localhost:8080/api/gameboard');
+                    const boardData = await boardResponse.json();
+                    const gameboard = document.getElementById('gameboard');
+                    freshBoard();
+                    dropButtons();
+                    // removeGameOverMessage();
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 7; j++) {
+                            const cell = document.getElementById(j.toString() + ' ' + i.toString());
+                            const cellImage = cell.firstChild;
+                            const token = boardData[i][j];
+                            console.log(boardData[i][j]);
+
+                            if (token === 1) {
+                                cellImage.src = 'img/player1.jpg';
+                            } else if (token === 2) {
+                                cellImage.src = 'img/player2.png';
+                            }
+                        }
+                    }
+
+                    // Disable drop buttons if the game is over
+                    if (!data.active) {
+                        disableDropButtons();
+                    }
+                } else {
+                    // Game is not active, handle accordingly
                     const message = data.winner ? `Player ${data.winner} wins!` : "It's a draw!";
-                    alert(message);
+                    // alert(message);
                     disableDropButtons();
                 }
+                
             } catch (error) {
                 console.error('Error fetching game state:', error);
             }
         }
+
 
         function disableDropButtons() {
             const buttons = document.querySelectorAll('.drop-button');
